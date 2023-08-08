@@ -1,14 +1,12 @@
 package com.challenge.Allocation.service;
 
 
-
 import com.challenge.Allocation.dto.Room;
 import com.challenge.Allocation.repository.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ConsultService {
@@ -20,27 +18,28 @@ public class ConsultService {
         this.hotelRepository = hotelRepository;
     }
 
-    public List<Room> listarProdutos() {
+    public List<Room> findRooms() {
         var response = hotelRepository.findAll();
 
-        return Room.fromEntity(response);
+        return Room.fromEntityList(response);
     }
 
-    public void criarProduto(Room room) {
-
+    public void createRoom(Room room) {
         hotelRepository.save(Room.toEntity(room));
     }
 
-   // public Room buscarProdutoPorId(Long id) {
-   //     Optional<Room> produtoOptional = hotelRepository.findById(id);
-   //     return produtoOptional.orElse(null);
-   // }
+    public Room findRoomByNumber(int number) {
+        return Room.fromEntity(hotelRepository.findByNumber(number));
+
+    }
+
+
 //
-   // public Room criarProduto(Room room) {
-   //     return hotelRepository.save(room);
-   // }
+    // public Room criarProduto(Room room) {
+    //     return hotelRepository.save(room);
+    // }
 //
-   // public void deletarProduto(Long id) {
-   //     hotelRepository.deleteById(id);
-   // }
+    // public void deletarProduto(Long id) {
+    //     hotelRepository.deleteById(id);
+    // }
 }

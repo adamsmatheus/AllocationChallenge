@@ -15,7 +15,7 @@ public class Room {
     private Long Id;
 
     @Column(name = "NUMERO", unique = true, nullable = false)
-    private int numero;
+    private int number;
 
     @Column(name = "VALUE_DAY", nullable = false)
     private float valueDay;

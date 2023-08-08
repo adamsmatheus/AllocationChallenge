@@ -21,14 +21,24 @@ public class ConsultController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Room>> listarProdutos() {
-        List<Room> produtos = consultService.listarProdutos();
+    public ResponseEntity<List<Room>> findRooms() {
+        List<Room> produtos = consultService.findRooms();
         return ResponseEntity.ok(produtos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Room> findRoomByNumber(@PathVariable int number) {
+        Room produto = consultService.findRoomByNumber(number);
+        if (produto != null) {
+            return ResponseEntity.ok(produto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
     public ResponseEntity createRoom(@RequestBody Room room) {
-        consultService.criarProduto(room);
+        consultService.createRoom(room);
         return ResponseEntity.status(201).build();
     }
 }

@@ -14,11 +14,11 @@ public class Room {
     private int numero;
     private float valueDay;
 
-    public static List<Room> fromEntity(List<com.challenge.Allocation.entity.Room> room) {
+    public static List<Room> fromEntityList(List<com.challenge.Allocation.entity.Room> room) {
         Room roomDTO = new Room();
         List<Room> roomList = new ArrayList<>();
         for (com.challenge.Allocation.entity.Room item : room) {
-            roomDTO.setNumero(item.getNumero());
+            roomDTO.setNumero(item.getNumber());
             roomDTO.setValueDay(item.getValueDay());
             roomList.add(roomDTO);
         }
@@ -26,9 +26,18 @@ public class Room {
         return roomList;
     }
 
+    public static Room fromEntity(com.challenge.Allocation.entity.Room room) {
+        Room roomDTO = new Room();
+
+        roomDTO.setNumero(room.getNumber());
+        roomDTO.setValueDay(room.getValueDay());
+
+        return roomDTO;
+    }
+
     public static com.challenge.Allocation.entity.Room toEntity(Room room) {
         com.challenge.Allocation.entity.Room roomEntity = new com.challenge.Allocation.entity.Room();
-        roomEntity.setNumero(room.getNumero());
+        roomEntity.setNumber(room.getNumero());
         roomEntity.setValueDay(room.getValueDay());
 
         return roomEntity;
