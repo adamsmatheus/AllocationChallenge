@@ -1,5 +1,6 @@
 package com.challenge.Allocation.dto;
 
+import com.challenge.Allocation.entity.Room;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,13 +12,16 @@ import java.util.List;
 @Getter
 @Setter
 public class RoomDto {
+    private int id;
     private int number;
     private float valueDay;
 
-    public static List<RoomDto> fromEntityList(List<com.challenge.Allocation.entity.Room> room) {
-        RoomDto roomDTO = new RoomDto();
+    public static List<RoomDto> fromEntityList(List<Room> room) {
+
         List<RoomDto> roomDtoList = new ArrayList<>();
-        for (com.challenge.Allocation.entity.Room item : room) {
+
+        for (Room item : room) {
+            RoomDto roomDTO = new RoomDto();
             roomDTO.setNumber(item.getNumber());
             roomDTO.setValueDay(item.getValueDay());
             roomDtoList.add(roomDTO);

@@ -29,4 +29,15 @@ public class BookRoomDto {
         return bookRoomEntity;
     }
 
+    public static BookRoomDto fromEntity(BookRoom bookRoom) {
+        BookRoomDto bookRoomDto = new BookRoomDto();
+
+        bookRoomDto.setRoomNumber(bookRoom.getRoomNumber());
+        bookRoomDto.setDateStart(bookRoom.getDateStart());
+        bookRoomDto.setDateFinish(bookRoom.getDateFinish());
+        bookRoomDto.setValueFinal(bookRoom.getFinalValue());
+
+        return bookRoomDto;
+    }
+
 }

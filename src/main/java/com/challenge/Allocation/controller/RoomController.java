@@ -1,25 +1,26 @@
 package com.challenge.Allocation.controller;
 
 
-
 import com.challenge.Allocation.dto.RoomDto;
 import com.challenge.Allocation.service.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/room")
 @AllArgsConstructor
 public class RoomController {
     private final RoomService roomService;
 
     @GetMapping
-    public ResponseEntity<List<RoomDto>> findRooms() {
-        List<RoomDto> produtos = roomService.findRooms();
-        return ResponseEntity.ok(produtos);
+    public String home() {
+        roomService.findRooms();
+        return "room";
     }
 
     @GetMapping("/{id}")
@@ -32,10 +33,19 @@ public class RoomController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity createRoom(@RequestBody RoomDto roomDto) {
+    @PostMapping("/create")
+    public String create(RoomDto roomDto) {
         roomService.createRoom(roomDto);
-        return ResponseEntity.status(201).build();
+        return "redirect:/room/list";
+    }
+
+    @GetMapping("/list")
+    public ModelAndView list() {
+        var room = roomService.findRooms();
+        ModelAndView mv = new ModelAndView("room/list");
+        mv.addObject("room", room);
+
+        return mv;
     }
 
     @PutMapping("/{id}")

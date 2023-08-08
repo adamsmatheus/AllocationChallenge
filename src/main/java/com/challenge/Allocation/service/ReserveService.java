@@ -41,11 +41,21 @@ public class ReserveService {
         return bookRoomDto;
     }
 
-    public boolean editReserve(BookRoomDto bookRoomDto) {
-        var reserve = reserveRepository.findAllByroomNumber(bookRoomDto.getRoomNumber());
-        var bookRoomDtoValidated = isBookingValid(bookRoomDto, reserve);
+    public boolean editReserve(Long id, BookRoomDto bookRoomDto) {
+        var bookRoomDtoResponse = reserveRepository.findByCodeReserve(id);
+        var allReservesByNumberRoom = reserveRepository.findAllByroomNumber(bookRoomDto.getRoomNumber());
+        var bookRoomDtoValidated = isBookingValid(bookRoomDto, allReservesByNumberRoom);
+
         if (bookRoomDtoValidated == true) {
-            reserveRepository.save(BookRoomDto.toEntity(bookRoomDto));
+            var roomResponse = roomRepository.findByNumber(bookRoomDtoResponse.getRoomNumber());
+
+            bookRoomDtoResponse.setDateStart(bookRoomDto.getDateStart());
+            bookRoomDtoResponse.setDateFinish(bookRoomDto.getDateFinish());
+
+            long daysDifference = ChronoUnit.DAYS.between(bookRoomDto.getDateStart(), bookRoomDto.getDateFinish());
+            bookRoomDtoResponse.setFinalValue((daysDifference + 1) * roomResponse.getValueDay());
+
+            reserveRepository.save(bookRoomDtoResponse);
             return true;
         }
 
