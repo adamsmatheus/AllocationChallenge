@@ -1,44 +1,24 @@
 package com.challenge.Allocation.controller;
 
-
-
-import com.challenge.Allocation.dto.Room;
+import com.challenge.Allocation.dto.RoomDto;
 import com.challenge.Allocation.service.ConsultService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/consult")
+@AllArgsConstructor
 public class ConsultController {
+
     private final ConsultService consultService;
 
-    @Autowired
-    public ConsultController(ConsultService consultService) {
-        this.consultService = consultService;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Room>> findRooms() {
-        List<Room> produtos = consultService.findRooms();
-        return ResponseEntity.ok(produtos);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Room> findRoomByNumber(@PathVariable int number) {
-        Room produto = consultService.findRoomByNumber(number);
-        if (produto != null) {
-            return ResponseEntity.ok(produto);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity createRoom(@RequestBody Room room) {
-        consultService.createRoom(room);
-        return ResponseEntity.status(201).build();
+    @PostMapping("/{id}")
+    public ResponseEntity<List<RoomDto>> findReserve(@PathVariable Long id, @RequestBody Date date) {
+        var response = consultService.findConsult(id,date);
+        return ResponseEntity.ok().build();
     }
 }
