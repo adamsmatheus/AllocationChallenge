@@ -1,10 +1,10 @@
 package com.challenge.Allocation.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "book_room")
@@ -21,11 +21,13 @@ public class BookRoom {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "DATE_START", nullable = false)
-    private Date dateStart;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateStart;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "DATE_FINISH", nullable = false)
-    private Date dateFinish;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateFinish;
 
     @Column(name = "FINAL_VALUE", nullable = false)
     private Float finalValue;

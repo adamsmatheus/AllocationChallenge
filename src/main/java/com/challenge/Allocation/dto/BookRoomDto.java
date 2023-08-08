@@ -1,26 +1,27 @@
 package com.challenge.Allocation.dto;
 
 import com.challenge.Allocation.entity.BookRoom;
-import com.challenge.Allocation.entity.Room;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
 @Setter
 public class BookRoomDto {
     private int roomNumber;
-    private Date dateStart;
-    private Date dateFinish;
-    private float valueFinal;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateStart;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateFinish;
+    private float valueFinal = 0;
 
-    public static BookRoom toEntity(BookRoomDto bookRoom, Room room) {
+    public static BookRoom toEntity(BookRoomDto bookRoom) {
         BookRoom bookRoomEntity = new BookRoom();
 
-        bookRoomEntity.setRoomNumber(room.getNumber());
+        bookRoomEntity.setRoomNumber(bookRoom.getRoomNumber());
         bookRoomEntity.setDateStart(bookRoom.dateStart);
         bookRoomEntity.setDateFinish(bookRoom.dateFinish);
         bookRoomEntity.setFinalValue(bookRoom.valueFinal);
