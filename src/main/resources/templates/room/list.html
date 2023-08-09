@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,13 +16,16 @@
     <tr>
         <th scope="col">Numero</th>
         <th scope="col">Valor Diária</th>
-
+        <th scope="col">#</th>
     </tr>
     </thead>
     <tbody>
     <tr data-th-each="room : ${room}">
         <td data-th-text="${room.number}"></td>
         <td data-th-text="${room.valueDay}"></td>
+        <td>
+            <a href="{/reserve}"> Editar </a>
+        </td>
     </tr>
     </tbody>
 </table>

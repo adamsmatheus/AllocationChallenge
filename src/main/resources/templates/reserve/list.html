@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,10 +14,12 @@
 <table class="table">
   <thead>
   <tr>
+    <th scope="col">ID</th>
     <th scope="col">Numero</th>
     <th scope="col">Data Início</th>
     <th scope="col">Data Fim</th>
     <th scope="col">Valor Total</th>
+    <th scope="col">#</th>
   </tr>
   </thead>
   <tbody>
@@ -26,6 +28,9 @@
     <td data-th-text="${reserve.dateStart}"></td>
     <td data-th-text="${reserve.dateFinish}"></td>
     <td data-th-text="${reserve.valueFinal}"></td>
+    <td>
+      <a th:href="@{/reserve/edit/{id}(id=${reserve.id})}">Editar</a>
+    </td>
 
   </tr>
   </tbody>

@@ -1,39 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
-  <title>Listagem de quartos</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Listagem de quartos</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
 <h1>Lista de Quartos por Id </h1>
 <table class="table">
-  <thead>
-  <tr>
-    <th scope="col">Numero</th>
-    <th scope="col">Data Início</th>
-    <th scope="col">Data Fim</th>
-    <th scope="col">Valor Total</th>
+    <thead>
+    <tr>
+        <th scope="col">Numero</th>
+        <th scope="col">Data Início</th>
+        <th scope="col">Data Fim</th>
+        <th scope="col">Valor Total</th>
+        <th scope="col">#</th>
 
-  </tr>
-  </thead>
-  <tbody>
-  <tr data-th-each="reserve : ${reserve}">
-    <td data-th-text="${reserve.roomNumber}"></td>
-    <td data-th-text="${reserve.dateStart}"></td>
-    <td data-th-text="${reserve.dateFinish}"></td>
-    <td data-th-text="${reserve.valueFinal}"></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-th-each="reserve : ${reserve}">
+        <td data-th-text="${reserve.roomNumber}"></td>
+        <td data-th-text="${reserve.dateStart}"></td>
+        <td data-th-text="${reserve.dateFinish}"></td>
+        <td data-th-text="${reserve.valueFinal}"></td>
+        <td>
+            <a th:href="@{/reserve/edit/{id}(id=${reserve.id})}">Editar</a>
+        </td>
 
-  </tr>
-  </tbody>
+    </tr>
+    </tbody>
 </table>
 <a href="/room">Cadastrar Quarto</a>
 <a href="/reserve">Cadastrar Reserva</a>
 <a href="/reserve/list">Consultar Reservas</a>
 <a href="/reserve/consultById">Consultar Reservas por quarto selecionado</a>
+<a href="/reserve/consultById">Editar Reserva por quarto selecionado</a>
 </body>
 </html>

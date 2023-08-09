@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -85,8 +86,13 @@ public class ReserveService {
        return BookRoomDto.fromEntityList(response);
     }
 
-    public List<BookRoomDto> findReserveById(int id){
+    public List<BookRoomDto> findReserveByRoomNumber(int id){
         var response =  reserveRepository.findAllByroomNumber(id);
         return BookRoomDto.fromEntityList(response);
+    }
+
+    public BookRoomDto findReserveById(int id){
+        var response =  reserveRepository.findById(Long.valueOf(id));
+        return BookRoomDto.fromOptionalEntity(response);
     }
 }

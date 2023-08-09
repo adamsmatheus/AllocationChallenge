@@ -9,12 +9,13 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @NoArgsConstructor
 @Getter
 @Setter
 public class BookRoomDto {
-    private int id;
+    private Long id;
     private int roomNumber;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateStart;
@@ -36,10 +37,21 @@ public class BookRoomDto {
     public static BookRoomDto fromEntity(BookRoom bookRoom) {
         BookRoomDto bookRoomDto = new BookRoomDto();
 
+        bookRoomDto.setId(bookRoom.getId());
         bookRoomDto.setRoomNumber(bookRoom.getRoomNumber());
         bookRoomDto.setDateStart(bookRoom.getDateStart());
         bookRoomDto.setDateFinish(bookRoom.getDateFinish());
         bookRoomDto.setValueFinal(bookRoom.getFinalValue());
+
+        return bookRoomDto;
+    }
+    public static BookRoomDto fromOptionalEntity(Optional<BookRoom> bookRoom) {
+        BookRoomDto bookRoomDto = new BookRoomDto();
+        bookRoomDto.setId(bookRoom.get().getId());
+        bookRoomDto.setRoomNumber(bookRoom.get().getRoomNumber());
+        bookRoomDto.setDateStart(bookRoom.get().getDateStart());
+        bookRoomDto.setDateFinish(bookRoom.get().getDateFinish());
+        bookRoomDto.setValueFinal(bookRoom.get().getFinalValue());
 
         return bookRoomDto;
     }
@@ -49,6 +61,7 @@ public class BookRoomDto {
 
         for (BookRoom item : bookRoom) {
             BookRoomDto bookRoomDto = new BookRoomDto();
+            bookRoomDto.setId(item.getId());
             bookRoomDto.setRoomNumber(item.getRoomNumber());
             bookRoomDto.setValueFinal(item.getFinalValue());
             bookRoomDto.setDateStart(item.getDateStart());

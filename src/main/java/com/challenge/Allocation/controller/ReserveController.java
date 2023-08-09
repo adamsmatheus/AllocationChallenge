@@ -1,7 +1,6 @@
 package com.challenge.Allocation.controller;
 
 import com.challenge.Allocation.dto.BookRoomDto;
-import com.challenge.Allocation.dto.RoomDto;
 import com.challenge.Allocation.service.ReserveService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,6 +21,14 @@ public class ReserveController {
     @GetMapping
     public String home() {
         return "reserve";
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView editReserve(@PathVariable("id") int id) {
+        ModelAndView mv = new ModelAndView("create");
+        var response = reserveService.findReserveById(id);
+        mv.addObject("reserve",response);
+        return mv;
     }
 
     @GetMapping("/consult")
@@ -47,7 +54,7 @@ public class ReserveController {
     }
     @PostMapping("/consultById")
     public ModelAndView consultById(int id) {
-        var reserve = reserveService.findReserveById(id);
+        var reserve = reserveService.findReserveByRoomNumber(id);
         ModelAndView mv = new ModelAndView("reserve/listById");
         mv.addObject("reserve", reserve);
 
