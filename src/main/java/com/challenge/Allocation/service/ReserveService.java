@@ -79,4 +79,14 @@ public class ReserveService {
     public void deleteReserve(Long id) {
         reserveRepository.deleteById(id);
     }
+
+    public List<BookRoomDto> findReserve(){
+       var response =  reserveRepository.findAll();
+       return BookRoomDto.fromEntityList(response);
+    }
+
+    public List<BookRoomDto> findReserveById(int id){
+        var response =  reserveRepository.findAllByroomNumber(id);
+        return BookRoomDto.fromEntityList(response);
+    }
 }

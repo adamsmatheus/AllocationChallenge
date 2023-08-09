@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Listagem de quartos</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<h1>Lista de Quartos</h1>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">Numero</th>
+    <th scope="col">Data Início</th>
+    <th scope="col">Data Fim</th>
+    <th scope="col">Valor Total</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr data-th-each="reserve : ${reserve}">
+    <td data-th-text="${reserve.roomNumber}"></td>
+    <td data-th-text="${reserve.dateStart}"></td>
+    <td data-th-text="${reserve.dateFinish}"></td>
+    <td data-th-text="${reserve.valueFinal}"></td>
+
+  </tr>
+  </tbody>
+</table>
+<a href="/room">Cadastrar Quarto</a>
+<a href="/reserve">Cadastrar Reserva</a>
+<a href="/reserve/list">Consultar Reservas</a>
+<a href="/reserve/consultById">Consultar Reservas por quarto selecionado</a>
+</body>
+</html>

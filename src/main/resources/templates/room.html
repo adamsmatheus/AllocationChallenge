@@ -19,16 +19,7 @@
         <input type="text" class="form-control" name="valueDay">
     </div>
     <button type="submit" class="btn btn-primary">Salvar</button>
-    <table>
-        <tr>
-            <th>Número</th>
-            <th>Valor Diário</th>
-        </tr>
-        <tr th:each="room : ${rooms}">
-            <td th:text="${room.number}"></td>
-            <td th:text="${room.valueDay}"></td>
-        </tr>
-    </table>
+
 </form>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>

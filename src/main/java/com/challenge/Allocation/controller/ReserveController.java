@@ -1,38 +1,91 @@
 package com.challenge.Allocation.controller;
 
 import com.challenge.Allocation.dto.BookRoomDto;
+import com.challenge.Allocation.dto.RoomDto;
 import com.challenge.Allocation.service.ReserveService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 @RequestMapping("/reserve")
 @AllArgsConstructor
 public class ReserveController {
 
     private final ReserveService reserveService;
 
-    @Operation(summary = "reserve", description = "To make new reserves")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful"),
-            @ApiResponse(responseCode = "400", description = "BadRequest"),
-            @ApiResponse(responseCode = "401", description = "Invalid Info")})
-    @PostMapping
-    public ResponseEntity<String> makeReserve(@RequestBody BookRoomDto bookRoomDto) {
+    @GetMapping
+    public String home() {
+        return "reserve";
+    }
 
+    @GetMapping("/consult")
+    public String consultAll() {
+        return "consult";
+    }
+
+    @GetMapping("/consultById")
+    public String consultById() {
+        return "consultById";
+    }
+
+    @PostMapping("/create")
+    public String create(BookRoomDto bookRoomDto) {
         if (bookRoomDto.getDateStart().isAfter(bookRoomDto.getDateFinish())) {
-            return ResponseEntity.status(401).body("A data de início é posterior a data fim.");
+            return "error";
         }
 
         if (!reserveService.makeReserve(bookRoomDto))
-            return ResponseEntity.badRequest().body("Já possui reserva para as datas selecionadas.");
+            return "ok";
 
-        return ResponseEntity.status(201).build();
+        return "redirect:/reserve/list";
     }
+    @PostMapping("/consultById")
+    public ModelAndView consultById(int id) {
+        var reserve = reserveService.findReserveById(id);
+        ModelAndView mv = new ModelAndView("reserve/listById");
+        mv.addObject("reserve", reserve);
+
+        return mv;
+    }
+    @PostMapping("/consult")
+    public ModelAndView consult() {
+        var reserve = reserveService.findReserve();
+        ModelAndView mv = new ModelAndView("reserve/listById");
+        mv.addObject("reserve", reserve);
+
+        return mv;
+    }
+    @GetMapping("/list")
+    public ModelAndView list() {
+        var reserve = reserveService.findReserve();
+        ModelAndView mv = new ModelAndView("reserve/list");
+        mv.addObject("reserve", reserve);
+
+        return mv;
+    }
+    //@Operation(summary = "reserve", description = "To make new reserves")
+    //@ApiResponses(value = {
+    //        @ApiResponse(responseCode = "200", description = "Successful"),
+    //        @ApiResponse(responseCode = "400", description = "BadRequest"),
+    //        @ApiResponse(responseCode = "401", description = "Invalid Info")})
+    //@PostMapping("/create")
+    //public ResponseEntity<String> makeReserve(@RequestBody BookRoomDto bookRoomDto) {
+//
+    //    if (bookRoomDto.getDateStart().isAfter(bookRoomDto.getDateFinish())) {
+    //        return ResponseEntity.status(401).body("A data de início é posterior a data fim.");
+    //    }
+//
+    //    if (!reserveService.makeReserve(bookRoomDto))
+    //        return ResponseEntity.badRequest().body("Já possui reserva para as datas selecionadas.");
+//
+    //    return ResponseEntity.status(201).build();
+    //}
 
     @Operation(summary = "reserve", description = "To make new reserves")
     @ApiResponses(value = {
