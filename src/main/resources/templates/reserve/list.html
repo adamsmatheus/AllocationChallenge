@@ -20,6 +20,7 @@
     <th scope="col">Data Fim</th>
     <th scope="col">Valor Total</th>
     <th scope="col">Editar</th>
+    <th scope="col">Cancelar</th>
   </tr>
   </thead>
   <tbody>
@@ -31,6 +32,9 @@
     <td data-th-text="${reserve.valueFinal}"></td>
     <td>
       <a th:href="@{/reserve/edit/{id}(id=${reserve.id})}">Editar</a>
+    </td>
+    <td>
+      <a th:href="@{/reserve/delete/{id}(id=${reserve.id})}">Cancelar</a>
     </td>
 
   </tr>

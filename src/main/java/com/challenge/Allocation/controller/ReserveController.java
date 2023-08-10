@@ -30,6 +30,12 @@ public class ReserveController {
         mv.addObject("reserve",response);
         return mv;
     }
+
+    @GetMapping("/delete/{id}")
+    public String cancelReserve(@PathVariable("id") Long id) {
+        reserveService.deleteReserve(id);
+        return "redirect:/reserve/list";
+    }
     @PostMapping("/update/{id}")
     public String update(@PathVariable("id") Long id, BookRoomDto bookRoomDto) {
         if (bookRoomDto.getDateStart().isAfter(bookRoomDto.getDateFinish())) {
@@ -87,19 +93,4 @@ public class ReserveController {
 
         return mv;
     }
-
-    @Operation(summary = "reserve", description = "To make new reserves")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful"),
-            @ApiResponse(responseCode = "400", description = "BadRequest"),
-            @ApiResponse(responseCode = "401", description = "Invalid Info")})
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteReserve(@PathVariable Long id) {
-
-        reserveService.deleteReserve(id);
-
-        return ResponseEntity.status(201).build();
-    }
-
-
 }
