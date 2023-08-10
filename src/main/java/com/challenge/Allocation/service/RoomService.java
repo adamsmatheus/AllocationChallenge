@@ -32,30 +32,4 @@ public class RoomService {
         return RoomDto.fromEntity(roomRepository.findByNumber(number));
 
     }
-
-    public boolean updateRoom(Long id, RoomDto roomDto) {
-
-        var response = roomRepository.findById(id);
-
-        if(response.isEmpty())
-            return false;
-
-        roomRepository.save(RoomDto.toEntity(roomDto));
-
-        return true;
-    }
-
-    public void deleteRoom(Long id) {
-         roomRepository.deleteById(id);
-    }
-
-
-//
-    // public Room criarProduto(Room room) {
-    //     return hotelRepository.save(room);
-    // }
-//
-    // public void deletarProduto(Long id) {
-    //     hotelRepository.deleteById(id);
-    // }
 }
