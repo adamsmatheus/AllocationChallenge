@@ -28,7 +28,7 @@ public class RoomService {
         roomRepository.save(RoomDto.toEntity(roomDto));
     }
 
-    public RoomDto findRoomByNumber(int number) {
+    public RoomDto findRoomByNumber(Long number) {
         return RoomDto.fromEntity(roomRepository.findByNumber(number));
 
     }

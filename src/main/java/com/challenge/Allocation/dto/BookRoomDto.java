@@ -16,20 +16,20 @@ import java.util.Optional;
 @Setter
 public class BookRoomDto {
     private Long id;
-    private int roomNumber;
+    private Long roomId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateStart;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateFinish;
     private float valueFinal = 0;
 
-    public static BookRoom toEntity(BookRoomDto bookRoom) {
+    public static BookRoom toEntity(BookRoomDto bookRoomDto) {
         BookRoom bookRoomEntity = new BookRoom();
 
-        bookRoomEntity.setRoomNumber(bookRoom.getRoomNumber());
-        bookRoomEntity.setDateStart(bookRoom.dateStart);
-        bookRoomEntity.setDateFinish(bookRoom.dateFinish);
-        bookRoomEntity.setFinalValue(bookRoom.valueFinal);
+        bookRoomEntity.setRoomId(bookRoomDto.getRoomId());
+        bookRoomEntity.setDateStart(bookRoomDto.dateStart);
+        bookRoomEntity.setDateFinish(bookRoomDto.dateFinish);
+        bookRoomEntity.setFinalValue(bookRoomDto.valueFinal);
 
         return bookRoomEntity;
     }
@@ -38,7 +38,7 @@ public class BookRoomDto {
         BookRoomDto bookRoomDto = new BookRoomDto();
 
         bookRoomDto.setId(bookRoom.getId());
-        bookRoomDto.setRoomNumber(bookRoom.getRoomNumber());
+        bookRoomDto.setRoomId(bookRoom.getRoomId());
         bookRoomDto.setDateStart(bookRoom.getDateStart());
         bookRoomDto.setDateFinish(bookRoom.getDateFinish());
         bookRoomDto.setValueFinal(bookRoom.getFinalValue());
@@ -48,7 +48,7 @@ public class BookRoomDto {
     public static BookRoomDto fromOptionalEntity(Optional<BookRoom> bookRoom) {
         BookRoomDto bookRoomDto = new BookRoomDto();
         bookRoomDto.setId(bookRoom.get().getId());
-        bookRoomDto.setRoomNumber(bookRoom.get().getRoomNumber());
+        bookRoomDto.setRoomId(bookRoom.get().getRoomId());
         bookRoomDto.setDateStart(bookRoom.get().getDateStart());
         bookRoomDto.setDateFinish(bookRoom.get().getDateFinish());
         bookRoomDto.setValueFinal(bookRoom.get().getFinalValue());
@@ -62,7 +62,7 @@ public class BookRoomDto {
         for (BookRoom item : bookRoom) {
             BookRoomDto bookRoomDto = new BookRoomDto();
             bookRoomDto.setId(item.getId());
-            bookRoomDto.setRoomNumber(item.getRoomNumber());
+            bookRoomDto.setRoomId(item.getRoomId());
             bookRoomDto.setValueFinal(item.getFinalValue());
             bookRoomDto.setDateStart(item.getDateStart());
             bookRoomDto.setDateFinish(item.getDateFinish());

@@ -16,8 +16,8 @@ public class BookRoom {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "ROOM_NUMBER", nullable = false)
-    private int roomNumber;
+    @Column(name = "ROOM_ID")
+    private Long roomId;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "DATE_START", nullable = false)

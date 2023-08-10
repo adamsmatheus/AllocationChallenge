@@ -9,12 +9,6 @@ import java.util.List;
 
 public interface ReserveRepository extends JpaRepository<BookRoom, Long> {
 
-    List<BookRoom> findAllByroomNumber(int roomNumber);
-
-    @Query(value = """
-            SELECT * FROM BOOK_ROOM BK
-            WHERE BK.ID = :id
-            """, nativeQuery = true)
-    BookRoom findByCodeReserve(@Param("id") Long id);
+    List<BookRoom> findAllByroomId(Long roomId);
 
 }

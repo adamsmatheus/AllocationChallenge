@@ -24,7 +24,8 @@
     </thead>
     <tbody>
     <tr data-th-each="reserve : ${reserve}">
-        <td data-th-text="${reserve.roomNumber}"></td>
+        <td data-th-text="${reserve.id}"></td>
+        <td data-th-text="${reserve.roomId}"></td>
         <td data-th-text="${reserve.dateStart}"></td>
         <td data-th-text="${reserve.dateFinish}"></td>
         <td data-th-text="${reserve.valueFinal}"></td>

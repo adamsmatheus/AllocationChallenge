@@ -2,7 +2,6 @@ package com.challenge.Allocation.service;
 
 import com.challenge.Allocation.dto.BookRoomDto;
 import com.challenge.Allocation.entity.BookRoom;
-import com.challenge.Allocation.entity.Room;
 import com.challenge.Allocation.repository.ReserveRepository;
 import com.challenge.Allocation.repository.RoomRepository;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,47 +18,26 @@ public class ReserveService {
     private final RoomRepository roomRepository;
 
     public boolean makeReserve(BookRoomDto bookRoomDto) {
-        var room = roomRepository.findByNumber(bookRoomDto.getRoomNumber());
+        var room = roomRepository.findByNumber(bookRoomDto.getRoomId());
 
-        var reserve = reserveRepository.findAllByroomNumber(bookRoomDto.getRoomNumber());
+        var reserve = reserveRepository.findAllByroomId(bookRoomDto.getRoomId());
         var bookRoomDtoValidated = isBookingValid(bookRoomDto, reserve);
 
         if (bookRoomDtoValidated == true) {
-            reserveRepository.save(BookRoomDto.toEntity(calculateValueFinal(bookRoomDto, room)));
+            bookRoomDto.setValueFinal(calculateValueFinal(bookRoomDto.getDateStart(),bookRoomDto.getDateFinish(),room.getValueDay()));
+            reserveRepository.save(BookRoomDto.toEntity(bookRoomDto));
+
             return true;
         }
 
         return false;
-
     }
 
-    private BookRoomDto calculateValueFinal(BookRoomDto bookRoomDto, Room room) {
+    private float calculateValueFinal(LocalDate dateStart, LocalDate dateFinish, float valueDay) {
+        long daysDifference = ChronoUnit.DAYS.between(dateStart, dateFinish);
 
-        long daysDifference = ChronoUnit.DAYS.between(bookRoomDto.getDateStart(), bookRoomDto.getDateFinish());
-        bookRoomDto.setValueFinal((daysDifference + 1) * room.getValueDay());
 
-        return bookRoomDto;
-    }
-
-    public boolean editReserve(Long id, BookRoomDto bookRoomDto) {
-        var bookRoomDtoResponse = reserveRepository.findByCodeReserve(id);
-        var allReservesByNumberRoom = reserveRepository.findAllByroomNumber(bookRoomDto.getRoomNumber());
-        var bookRoomDtoValidated = isBookingValid(bookRoomDto, allReservesByNumberRoom);
-
-        if (bookRoomDtoValidated == true) {
-            var roomResponse = roomRepository.findByNumber(bookRoomDtoResponse.getRoomNumber());
-
-            bookRoomDtoResponse.setDateStart(bookRoomDto.getDateStart());
-            bookRoomDtoResponse.setDateFinish(bookRoomDto.getDateFinish());
-
-            long daysDifference = ChronoUnit.DAYS.between(bookRoomDto.getDateStart(), bookRoomDto.getDateFinish());
-            bookRoomDtoResponse.setFinalValue((daysDifference + 1) * roomResponse.getValueDay());
-
-            reserveRepository.save(bookRoomDtoResponse);
-            return true;
-        }
-
-        return false;
+        return (daysDifference + 1) * valueDay;
     }
 
     public boolean isBookingValid(BookRoomDto newBooking, List<BookRoom> existingBookings) {
@@ -86,13 +63,33 @@ public class ReserveService {
        return BookRoomDto.fromEntityList(response);
     }
 
-    public List<BookRoomDto> findReserveByRoomNumber(int id){
-        var response =  reserveRepository.findAllByroomNumber(id);
+    public List<BookRoomDto> findReserveByRoomNumber(Long id){
+        var response =  reserveRepository.findAllByroomId(id);
         return BookRoomDto.fromEntityList(response);
     }
 
-    public BookRoomDto findReserveById(int id){
-        var response =  reserveRepository.findById(Long.valueOf(id));
+    public BookRoomDto findReserveById(Long id){
+        var response =  reserveRepository.findById(id);
         return BookRoomDto.fromOptionalEntity(response);
+    }
+
+    public boolean updateReserve(Long id,BookRoomDto bookRoomDto) {
+
+        var reserve = reserveRepository.findAllByroomId(id);
+        var bookRoomDtoValidated = isBookingValid(bookRoomDto, reserve);
+
+        if (bookRoomDtoValidated == true) {
+            var roomResponse = reserve.stream().filter(item -> item.getId()== bookRoomDto.getId()).findFirst();
+
+            var room = roomRepository.findById(roomResponse.get().getRoomId());
+
+            roomResponse.get().setFinalValue(calculateValueFinal(bookRoomDto.getDateStart(),bookRoomDto.getDateFinish(), room.get().getValueDay()));
+            roomResponse.get().setDateStart(bookRoomDto.getDateStart());
+            roomResponse.get().setDateFinish(bookRoomDto.getDateFinish());
+            reserveRepository.save(roomResponse.get());
+            return true;
+        }
+
+        return false;
     }
 }

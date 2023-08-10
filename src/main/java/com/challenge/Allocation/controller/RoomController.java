@@ -24,7 +24,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoomDto> findRoomByNumber(@PathVariable int number) {
+    public ResponseEntity<RoomDto> findRoomByNumber(@PathVariable Long number) {
         RoomDto produto = roomService.findRoomByNumber(number);
         if (produto != null) {
             return ResponseEntity.ok(produto);

@@ -24,11 +24,22 @@ public class ReserveController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView editReserve(@PathVariable("id") int id) {
-        ModelAndView mv = new ModelAndView("create");
+    public ModelAndView editReserve(@PathVariable("id") Long id) {
+        ModelAndView mv = new ModelAndView("update");
         var response = reserveService.findReserveById(id);
         mv.addObject("reserve",response);
         return mv;
+    }
+    @PostMapping("/update/{id}")
+    public String update(@PathVariable("id") Long id, BookRoomDto bookRoomDto) {
+        if (bookRoomDto.getDateStart().isAfter(bookRoomDto.getDateFinish())) {
+            return "error";
+        }
+
+        if (!reserveService.updateReserve(id,bookRoomDto))
+            return "ok";
+
+        return "redirect:/reserve/list";
     }
 
     @GetMapping("/consult")
@@ -53,7 +64,7 @@ public class ReserveController {
         return "redirect:/reserve/list";
     }
     @PostMapping("/consultById")
-    public ModelAndView consultById(int id) {
+    public ModelAndView consultById(Long id) {
         var reserve = reserveService.findReserveByRoomNumber(id);
         ModelAndView mv = new ModelAndView("reserve/listById");
         mv.addObject("reserve", reserve);
@@ -75,40 +86,6 @@ public class ReserveController {
         mv.addObject("reserve", reserve);
 
         return mv;
-    }
-    //@Operation(summary = "reserve", description = "To make new reserves")
-    //@ApiResponses(value = {
-    //        @ApiResponse(responseCode = "200", description = "Successful"),
-    //        @ApiResponse(responseCode = "400", description = "BadRequest"),
-    //        @ApiResponse(responseCode = "401", description = "Invalid Info")})
-    //@PostMapping("/create")
-    //public ResponseEntity<String> makeReserve(@RequestBody BookRoomDto bookRoomDto) {
-//
-    //    if (bookRoomDto.getDateStart().isAfter(bookRoomDto.getDateFinish())) {
-    //        return ResponseEntity.status(401).body("A data de início é posterior a data fim.");
-    //    }
-//
-    //    if (!reserveService.makeReserve(bookRoomDto))
-    //        return ResponseEntity.badRequest().body("Já possui reserva para as datas selecionadas.");
-//
-    //    return ResponseEntity.status(201).build();
-    //}
-
-    @Operation(summary = "reserve", description = "To make new reserves")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful"),
-            @ApiResponse(responseCode = "400", description = "BadRequest"),
-            @ApiResponse(responseCode = "401", description = "Invalid Info")})
-    @PutMapping("/{id}")
-    public ResponseEntity editReserve(@PathVariable Long id, @RequestBody BookRoomDto bookRoomDto) {
-
-        if (bookRoomDto.getDateStart().isAfter(bookRoomDto.getDateFinish())) {
-            return ResponseEntity.status(401).body("A data de início é posterior a data fim.");
-        }
-        if (!reserveService.editReserve(id,bookRoomDto))
-            return ResponseEntity.badRequest().body("Não foi possivel alterar as datas pois já existe reserva para esse quarto nas datas selecionadas");
-
-        return ResponseEntity.status(201).build();
     }
 
     @Operation(summary = "reserve", description = "To make new reserves")
