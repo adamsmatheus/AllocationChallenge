@@ -16,21 +16,18 @@
     <tr>
         <th scope="col">Numero</th>
         <th scope="col">Valor Diária</th>
-        <th scope="col">#</th>
     </tr>
     </thead>
     <tbody>
     <tr data-th-each="room : ${room}">
         <td data-th-text="${room.number}"></td>
         <td data-th-text="${room.valueDay}"></td>
-        <td>
-            <a href="{/reserve}"> Editar </a>
-        </td>
     </tr>
     </tbody>
 </table>
 <a href="/room">Cadastrar Quarto</a>
 <a href="/reserve">Cadastrar Reserva</a>
+<a href="/room/list">Consultar Quartos</a>
 <a href="/reserve/list">Consultar Reservas</a>
 <a href="/reserve/consultById">Consultar Reservas por quarto selecionado</a>
 </body>
