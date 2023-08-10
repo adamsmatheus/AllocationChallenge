@@ -1,6 +1,5 @@
 package com.challenge.Allocation.controller;
 
-
 import com.challenge.Allocation.dto.RoomDto;
 import com.challenge.Allocation.service.RoomService;
 import lombok.AllArgsConstructor;
