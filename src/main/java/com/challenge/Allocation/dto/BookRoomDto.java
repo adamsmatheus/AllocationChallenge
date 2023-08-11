@@ -1,11 +1,11 @@
 package com.challenge.Allocation.dto;
 
 import com.challenge.Allocation.entity.BookRoom;
-import com.challenge.Allocation.entity.Room;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

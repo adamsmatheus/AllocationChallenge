@@ -24,7 +24,7 @@ public class ReserveService {
         var bookRoomDtoValidated = isBookingValid(bookRoomDto, reserve);
 
         if (bookRoomDtoValidated == true) {
-            bookRoomDto.setValueFinal(calculateValueFinal(bookRoomDto.getDateStart(),bookRoomDto.getDateFinish(),room.getValueDay()));
+            bookRoomDto.setValueFinal(calculateValueFinal(bookRoomDto.getDateStart(), bookRoomDto.getDateFinish(), room.getValueDay()));
             reserveRepository.save(BookRoomDto.toEntity(bookRoomDto));
 
             return true;
@@ -58,32 +58,32 @@ public class ReserveService {
         reserveRepository.deleteById(id);
     }
 
-    public List<BookRoomDto> findReserve(){
-       var response =  reserveRepository.findAll();
-       return BookRoomDto.fromEntityList(response);
-    }
-
-    public List<BookRoomDto> findReserveByRoomNumber(Long id){
-        var response =  reserveRepository.findAllByroomId(id);
+    public List<BookRoomDto> findReserve() {
+        var response = reserveRepository.findAll();
         return BookRoomDto.fromEntityList(response);
     }
 
-    public BookRoomDto findReserveById(Long id){
-        var response =  reserveRepository.findById(id);
+    public List<BookRoomDto> findReserveByRoomNumber(Long id) {
+        var response = reserveRepository.findAllByroomId(id);
+        return BookRoomDto.fromEntityList(response);
+    }
+
+    public BookRoomDto findReserveById(Long id) {
+        var response = reserveRepository.findById(id);
         return BookRoomDto.fromOptionalEntity(response);
     }
 
-    public boolean updateReserve(Long id,BookRoomDto bookRoomDto) {
+    public boolean updateReserve(Long id, BookRoomDto bookRoomDto) {
 
         var reserve = reserveRepository.findAllByroomId(id);
         var bookRoomDtoValidated = isBookingValid(bookRoomDto, reserve);
 
         if (bookRoomDtoValidated == true) {
-            var roomResponse = reserve.stream().filter(item -> item.getId()== bookRoomDto.getId()).findFirst();
+            var roomResponse = reserve.stream().filter(item -> item.getId() == bookRoomDto.getId()).findFirst();
 
             var room = roomRepository.findById(roomResponse.get().getRoomId());
 
-            roomResponse.get().setFinalValue(calculateValueFinal(bookRoomDto.getDateStart(),bookRoomDto.getDateFinish(), room.get().getValueDay()));
+            roomResponse.get().setFinalValue(calculateValueFinal(bookRoomDto.getDateStart(), bookRoomDto.getDateFinish(), room.get().getValueDay()));
             roomResponse.get().setDateStart(bookRoomDto.getDateStart());
             roomResponse.get().setDateFinish(bookRoomDto.getDateFinish());
             reserveRepository.save(roomResponse.get());

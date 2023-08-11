@@ -22,46 +22,35 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
     > git clone https://github.com/adamsmatheus/AllocationChallenge.git
 ```
 
-2. Na raiz do projeto procure o pasta ' target ', dentro da mesma execute o SwapCase.jar
+2. O projeto está configurado para possibilitar a criação de uma imagem docker, para isso execute os seguintes passos :
 ```sh
-    > > java -jar SwapCase.jar
+    > docker build -t hotel-allocation:v3 . 
 ```
-
-4. Subindo o programa localmente, faça uma requisição e faça um POST para o endereço abaixo.
 ```sh
-    > http://localhost:8080/password
+    > docker run -p 8080:8080 hotel-allocation:v3 
 ```
 
-5. No Body da mensagem passe um Json, seguindo o exemplo abaixo.
-```json
-{
-      "user":"adamsmatheus",
-      "repository":"room",
-      "url":"localhost:8080"
-}
-```
-Obs.: Para que o **.jar** rode com sucesso,
-você precisa ter o Java 11 instalado na máquina,
-caso não tenha clique [aqui](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html).
+Dessa forma subirá a imagem do projeto via docker.
+Obs.: Lembrando que é necessário ter o Java 17 na máquina também como o docker.
 
+Com o projeto executando podemos acessar a página inicial do nosso sistema via brownser.
+```sh
+    > http://localhost:8080/room/list
+```
 
 ## 📏 Arquitetura do projeto
 
-<img src="img.jpeg" alt="My cool logo"/>
-
-<img src="diagrama.jpeg" alt="My cool logo"/>
-
 Para o desenvolvimento dessa API foi levado em consideração dois
 fatores muito importantes, o código limpo e a velocidade de resposta. Para deixar
-o código menos extenso foi adotado o framework <i>Spring Boot</i> onde reduziu
-boa parte do código dessa api somente adicionando algumas <i>annotations</i>.
+o código menos extenso foi adotado o framework <i>Spring Boot</i> e da biblioteca <i>Lombok</i> onde reduziu
+boa parte do código somente adicionando algumas <i>annotations</i>.
 
 A escolha de usar arquitetura em camadas vem pelo razão de ser  amplamente conhecido
-e relativamente fácil de ser compreendido. Além disto, o “mindset” de
+e relativamente fácil de ser compreendido. Além disso, o “mindset” de
 desenvolvimento tende a especializar etapas de trabalho ou
 tecnologias, facilitando a associação com as camadas do projeto.
-
-Com essas escolhas resultou em uma API com o código fonte
+ 
+Onde se resultou em uma API com o código fonte
 bem pequeno e intuítivo, facilitando bastante o
 entendimento.
 
